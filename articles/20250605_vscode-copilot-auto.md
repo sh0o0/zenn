@@ -1,15 +1,21 @@
 ---
-title: "GitHub Copilotを最大限に活用する方法"
-emoji: "🚀"
+title: "GitHub Copilotを完全自走させるための3つの設定"
+emoji: "🏃‍➡️"
 type: "idea"
 topics: ['vscode', 'githubcopilot']
 published: false
 ---
 
 こんにちは 👋
-GitHub Copilot Chatを愛用している[@sho](https://x.com/sh0o0000)です。
+GitHub Copilot を愛用している[@sho](https://x.com/sh0o0000)です。
 
 GitHub Copilotをもっと便利に使いたいと思ったことはありませんか？この記事では、Copilotの設定を最適化して生産性を向上させる3つのステップをご紹介します。
+
+## 背景
+
+最近、Claude Sonnet 4が登場し、タスクを粘り強く完遂しようとする能力が向上しました。しかし、コマンドやツールの承認（approve）やイテレーションが長引くと、「まだタスクを続けますか？」と確認されることが増え、結果的にチャットに張り付く必要が出てきてしまいました。
+
+このような状況を改善するために、GitHub Copilotの設定を最適化し、よりスムーズな作業環境を構築する方法を模索しました。この記事では、その具体的な手順をご紹介します。
 
 ## 概要
 
@@ -71,27 +77,39 @@ Copilotが一度に処理できるリクエスト数を増やすことで、よ�
 docker network create --internal --driver bridge no-internet
 ```
 
-Go言語のDev Container設定例も参考にしてください：
-
 `.devcontainer/devcontainer.json`:
 
 ```json
 {
-  "name": "Go",
-  "image": "mcr.microsoft.com/devcontainers/go:1-1.23-bookworm",
-  "features": {
-    "ghcr.io/jungaretti/features/make:1": {},
-    "ghcr.io/guiyomh/features/golangci-lint": {
-      "version": "1.64.8"
-    }
+  "name": "Node.js & TypeScript",
+  "build": {
+    "dockerfile": "${localWorkspaceFolder}/.devcontainer/Dockerfile", // Dockerfile内でgo downloadなどを実行
+    "options": [
+      "--network",
+      "host" // build時のみネットワークを有効にする
+    ]
   },
-  "postCreateCommand": "go version",
+  "runArgs": [
+    "--network",
+    "no-internet" // コンテナ起動時はネットワークを無効にする
+  ],
   "customizations": {
     "vscode": {
-      "chat.tools.autoApprove": true
+      "chat.tools.autoApprove": true,
+      "workbench.colorTheme": "Solarized Dark"
     }
   }
 }
+```
+
+<!-- TODO: 検証が必要 -->
+`.devcontainer/Dockerfile`:
+
+```dockerfile
+FROM mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
+
+# 必要なパッケージをインストール
+RUN npm install
 ```
 
 ## まとめ
