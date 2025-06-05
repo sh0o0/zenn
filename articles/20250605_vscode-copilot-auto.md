@@ -1,6 +1,6 @@
 ---
 title: "GitHub Copilotを完全自走させるための3つの設定"
-emoji: "🏃‍➡️"
+emoji: "🏃"
 type: "idea"
 topics: ['vscode', 'githubcopilot']
 published: false
@@ -9,13 +9,13 @@ published: false
 こんにちは 👋
 GitHub Copilot を愛用している[@sho](https://x.com/sh0o0000)です。
 
-GitHub Copilotをもっと便利に使いたいと思ったことはありませんか？この記事では、Copilotの設定を最適化して生産性を向上させる3つのステップをご紹介します。
+GitHub Copilotを完全自走させたいと思ったことはありませんか？この記事では、Copilotの設定を最適化し、手放しで作業を進められる3つのステップをご紹介します。
 
 ## 背景
 
-最近、Claude Sonnet 4が登場し、タスクを粘り強く完遂しようとする能力が向上しました。しかし、コマンドやツールの承認（approve）やイテレーションが長引くと、「まだタスクを続けますか？」と確認されることが増え、結果的にチャットに張り付く必要が出てきてしまいました。
+最近、Claude Sonnet 4が登場し、タスクを粘り強く完遂しようとする能力が向上しました。しかし、コマンドやツールの承認やイテレーションが長引くと、「まだタスクを続けますか？」と確認されることが増え、結果的にチャットに張り付く必要が出てきてしまいました。
 
-このような状況を改善するために、GitHub Copilotの設定を最適化し、よりスムーズな作業環境を構築する方法を模索しました。この記事では、その具体的な手順をご紹介します。
+このような状況を改善するために、GitHub Copilotの設定を最適化し、完全自走を目指す方法を模索しました。この記事では、その具体的な手順をご紹介します。
 
 ## 概要
 
@@ -47,7 +47,8 @@ Copilotが一度に処理できるリクエスト数を増やすことで、よ�
 
 ### 3. Dev Containersで安全な環境を構築する
 
-設定を適用するだけでなく、Dev Containersを使って作業環境を隔離することで、より安全に利用できます。
+設定を適用するだけでなく、[Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)を使って作業環境を隔離することで、より安全に利用できます。
+私はAuto ApproveはDev Container内でのみ有効にするようにしています。
 
 以下はNode.js & TypeScriptのDev Container設定例です：
 
@@ -59,62 +60,21 @@ Copilotが一度に処理できるリクエスト数を増やすことで、よ�
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
   "customizations": {
     "vscode": {
+      "settings": {
+        "chat.tools.autoApprove": true, // Auto Approveを有効にする
+        "workbench.colorTheme": "Solarized Dark" // Dev Container用のテーマを設定しておくと見やすい
+      },
       "extensions": [
         "installしたいextensionのID" // 例: "biomejs.biome"
-      ],
-      "settings": {
-        "chat.tools.autoApprove": true,
-        "workbench.colorTheme": "Solarized Dark"
-      }
+      ]
     }
   }
 }
-```
-
-さらに、ネットワークからも隔離するには以下のコマンドと設定を使用します：
-
-```fish
-docker network create --internal --driver bridge no-internet
-```
-
-`.devcontainer/devcontainer.json`:
-
-```json
-{
-  "name": "Node.js & TypeScript",
-  "build": {
-    "dockerfile": "${localWorkspaceFolder}/.devcontainer/Dockerfile", // Dockerfile内でgo downloadなどを実行
-    "options": [
-      "--network",
-      "host" // build時のみネットワークを有効にする
-    ]
-  },
-  "runArgs": [
-    "--network",
-    "no-internet" // コンテナ起動時はネットワークを無効にする
-  ],
-  "customizations": {
-    "vscode": {
-      "chat.tools.autoApprove": true,
-      "workbench.colorTheme": "Solarized Dark"
-    }
-  }
-}
-```
-
-<!-- TODO: 検証が必要 -->
-`.devcontainer/Dockerfile`:
-
-```dockerfile
-FROM mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
-
-# 必要なパッケージをインストール
-RUN npm install
 ```
 
 ## まとめ
 
-これらの設定を活用することで、GitHub Copilotのパフォーマンスを最大限に引き出すことができます。ぜひ試してみてください！
+これらの設定を活用することで、GitHub Copilotを完全自走させることができます。ぜひ試してみてください！
 
 タスク完了時に音を鳴らすようにしておくとさらに便利です。音の設定方法は以下の記事を参考にしてください：
 https://zenn.dev/nakar0/articles/20250603_vscode-copilot-sound
