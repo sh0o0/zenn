@@ -6,7 +6,7 @@
 ## 投稿ネタ
 
 - vscode copilot
-  - [ ] 音を鳴らす
-  - [ ] 止まらず動いてもらう と dev container
+  - [x] 音を鳴らす
   - [ ] simple browserでhtml参照
+  - [ ] 止まらず動いてもらう と dev container
   - [ ] vscodeでタスク管理しながら非同期的な開発

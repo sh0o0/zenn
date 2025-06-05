@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/nakar0/zenn#readme",
   "dependencies": {
-    "zenn-cli": "^0.1.157"
+    "zenn-cli": "^0.1.161"
   }
 }
