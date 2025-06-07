@@ -3,7 +3,7 @@ title: "GitHub Copilotを完全自走させるための3つの設定"
 emoji: "🏃"
 type: "idea"
 topics: ['vscode', 'githubcopilot']
-published: false
+published: true
 ---
 
 こんにちは 👋
