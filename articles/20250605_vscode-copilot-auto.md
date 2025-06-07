@@ -11,6 +11,10 @@ GitHub Copilot を愛用している[@sho](https://x.com/sh0o0000)です。
 
 GitHub Copilotを完全自走させたいと思ったことはありませんか？この記事では、Copilotの設定を最適化し、手放しで作業を進められる3つのステップをご紹介します。
 
+:::message
+この記事で紹介する設定や手法は、自己責任でご利用ください。
+:::
+
 ## 背景
 
 Claude Sonnet 4すごいですね！すごく粘り強くタスクを完遂しようとしてくれます。
@@ -50,7 +54,7 @@ Copilotが一度に処理できるリクエスト数を増やすことで、よ�
 ### 3. Dev Containersで安全な環境を構築する
 
 設定を適用するだけでなく、[Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)を使って作業環境を隔離することで、より安全に利用できます。
-私はAuto ApproveはDev Container内でのみ有効にするようにしています。
+私は、Auto ApproveはDev Container内でのみ有効にするようにしています。
 
 以下はNode.js & TypeScriptのDev Container設定例です：
 
@@ -66,15 +70,22 @@ Copilotが一度に処理できるリクエスト数を増やすことで、よ�
         "chat.tools.autoApprove": true, // Auto Approveを有効にする
         "workbench.colorTheme": "Solarized Dark" // Dev Container用のテーマを設定しておくと見やすい
       },
-      "extensions": []
     }
   }
 }
 ```
 
+:::details インターネット接続を制限する
+`runArgs`を使用することで、Dev Container内のインターネット接続を制限することも可能です。これにより、外部との通信を遮断し、安全性を高めることができます。
+ただし、インターネット接続を無効にすると、GitHub Copilotが動作しなくなります。
+「インターネット接続を制限しつつCopilotを使う方法はないかな？」と模索中です 🤔
+もし良いアイデアがあれば、ぜひ教えてください！
+:::
+
 ## まとめ
 
-これらの設定を活用することで、GitHub Copilotを完全自走させることができます。ぜひ試してみてください！
+これらの設定を活用することで、GitHub Copilotを完全自走させることができます。
+この記事で紹介した方法以外にも、GitHub Copilotをより効率的に活用するアイデアがあれば、ぜひコメントやSNSで教えてください！
 
 タスク完了時に音を鳴らすようにしておくとさらに便利です。音の設定方法は以下の記事を参考にしてください：
 https://zenn.dev/nakar0/articles/20250603_vscode-copilot-sound
